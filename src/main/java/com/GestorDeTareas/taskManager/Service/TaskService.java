@@ -1,59 +1,61 @@
 package com.GestorDeTareas.taskManager.Service;
 
 import com.GestorDeTareas.taskManager.DTO.TaskDTO;
+import com.GestorDeTareas.taskManager.Exception.TaskNotFoundException;
+import com.GestorDeTareas.taskManager.Mapper.TaskMapper;
 import com.GestorDeTareas.taskManager.Model.Task;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.GestorDeTareas.taskManager.Repository.TaskRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class TaskService {
-    private final List<Task> repository = new ArrayList<>();
-    private long nextId = 1;
+    private final TaskRepository taskRepository;
+    private final TaskMapper taskMapper;
 
-    public List<Task> getAllTasks(){
-        return new ArrayList<>(repository);
+    public TaskService(TaskRepository taskRepository, TaskMapper taskMapper){
+        this.taskRepository = taskRepository;
+        this.taskMapper = taskMapper;
     }
 
-    public Task createTask(TaskDTO taskDTO){
-        Task task = new Task();
-        task.setId(nextId++);
-        task.setName(taskDTO.getName());
-        task.setDesc(taskDTO.getDesc());
-        task.setState(taskDTO.isState());
-        task.setDeadline(taskDTO.getDeadline());
-        repository.add(task);
-
-        return task;
+    public List<TaskDTO> getAllTasks(){
+        return taskRepository.findAll()
+                .stream()
+                .map(taskMapper::toDTO)
+                .collect(Collectors.toList());
     }
 
-    public Task getTaskById(Long id){
-        return repository.stream()
-                .filter(t -> t.getId().equals(id))
-                .findFirst()
-                .orElse(null);
+    public TaskDTO getTask(Long id){
+        Task task = taskRepository.findById(id)
+                .orElseThrow(() -> new TaskNotFoundException(id));
+
+        return taskMapper.toDTO(task);
     }
 
-    public Task updateTask(Long id, TaskDTO taskDTO){
-        Optional<Task> optTask = repository.stream()
-                .filter(t -> t.getId().equals(id))
-                .findFirst();
-        if(optTask.isPresent()){
-            Task task = optTask.get();
-            task.setName(taskDTO.getName());
-            task.setDesc(taskDTO.getDesc());
-            task.setState(taskDTO.isState());
-            task.setDeadline(taskDTO.getDeadline());
-            return task;
+    public TaskDTO createTask(TaskDTO taskDTO){
+        Task task = taskMapper.toEntity(taskDTO);
+        Task savedTask = taskRepository.save(task);
+        return taskMapper.toDTO(savedTask);
+    }
+
+    public TaskDTO updateTask(Long id, TaskDTO taskDTO){
+        Task existingTask = taskRepository.findById(id)
+                .orElseThrow(() -> new TaskNotFoundException(id));
+
+        existingTask.setName(taskDTO.getName());
+        existingTask.setDescription(taskDTO.getDescription());
+        existingTask.setState(taskDTO.isState());
+
+        Task updatedTask = taskRepository.save(existingTask);
+        return taskMapper.toDTO(updatedTask);
+    }
+
+    public void deleteTask(Long id){
+        if(!taskRepository.existsById(id)){
+            throw new TaskNotFoundException(id);
         }
-
-        return null;
-    }
-
-    public boolean deleteTask(Long id){
-        return repository.removeIf(t -> t.getId().equals(id));
+        taskRepository.deleteById(id);
     }
 }

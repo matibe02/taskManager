@@ -1,25 +1,20 @@
 package com.GestorDeTareas.taskManager.DTO;
 
 import com.GestorDeTareas.taskManager.Model.Task;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class TaskDTO {
+    private Long id;
     private String name;
-    private String desc;
+    private String description;
     private boolean state;
     private LocalDate deadline;
-
-    public TaskDTO(Task task){
-        this.name = task.getName();
-        this.desc = task.getDesc();
-        this.state = task.isState();
-        this.deadline = task.getDeadline();
-    }
-
-    public TaskDTO(){
-
-    }
+    
 }
