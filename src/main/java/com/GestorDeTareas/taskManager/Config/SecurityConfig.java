@@ -1,4 +1,4 @@
-package com.GestorDeTareas.taskManager.Config;
+/*package com.GestorDeTareas.taskManager.Config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,4 +14,4 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth.anyRequest().permitAll());
         return http.build();
     }
-}
+}*/

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Tarea</title>
+</head>
+<body>
+<h1 th:text="${task.id != null} ? 'Editar Tarea' : 'Crear Tarea'">Formulario</h1>
+
+<form th:action="${task.id != null} ? @{/tasks/view/update/{id}(id=${task.id})} : @{/tasks/view/save}"
+      th:object="${task}"
+      method="post">
+
+    <input type="hidden" th:value="${task.id}" name="id"/>
+
+    <label>Nombre:</label>
+    <input type="text" th:value="${task.name}" name="name" required/><br/>
+
+    <label>Descripción:</label>
+    <input type="text" th:value="${task.description}" name="description"/><br/>
+
+    <label>Fecha límite:</label>
+    <input type="date" th:value="${task.deadline}" name="deadline"/><br/>
+
+    <label>Estado:</label>
+    <select th:field="*{state}" required>
+        <option th:each="s : ${T(com.GestorDeTareas.taskManager.Model.TaskState).values()}"
+                th:value="${s}"
+                th:text="${s.displayName}"
+        </option>
+    </select><br/><br/>
+
+    <button type="submit" th:text="${task.id != null} ? 'Actualizar' : 'Crear'">Guardar</button>
+</form>
+
+<a th:href="@{/}">Volver al listado</a>
+</body>
+</html>

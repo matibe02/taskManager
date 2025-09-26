@@ -46,7 +46,7 @@ public class TaskService {
 
         existingTask.setName(taskDTO.getName());
         existingTask.setDescription(taskDTO.getDescription());
-        existingTask.setState(taskDTO.isState());
+        existingTask.setState(taskDTO.getState());
 
         Task updatedTask = taskRepository.save(existingTask);
         return taskMapper.toDTO(updatedTask);

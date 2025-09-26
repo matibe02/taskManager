@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Gestor de Tareas</title>
+</head>
+<body>
+<h1>Lista de Tareas</h1>
+<a th:href="@{/tasks/view/form}">Crear nueva tarea</a>
+
+<table border="1">
+    <thead>
+    <tr>
+        <th>Nombre</th>
+        <th>Descripción</th>
+        <th>Fecha límite</th>
+        <th>Estado</th>
+        <th>Acciones</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="task : ${tasks}">
+        <td th:text="${task.name}">Nombre</td>
+        <td th:text="${task.description}">Descripción</td>
+        <td th:text="${task.deadline}">Fecha</td>
+        <td th:text="${task.state != null ? task.state.displayName : 'Pendiente'}">Estado</td>
+        <td>
+            <a th:href="@{'/tasks/view/edit/' + ${task.id}}">Editar</a>
+            |
+            <a th:href="@{'/tasks/view/delete/' + ${task.id}}"
+               onclick="return confirm('¿Seguro que querés eliminar esta tarea?');">
+                Eliminar
+            </a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

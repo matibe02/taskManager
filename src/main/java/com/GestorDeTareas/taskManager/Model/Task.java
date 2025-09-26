@@ -18,10 +18,11 @@ public class Task {
     private Long id;
     private String name;
     private String description;
-    private boolean state; //Tres estados: No hecho, pendiente y realizado
+    @Enumerated(EnumType.STRING)
+    private TaskState state = TaskState.PENDING; //Tres estados: No hecho, pendiente y realizado
     private LocalDate deadline;
 
-    public Task(String name, String description, boolean state, LocalDate deadline){
+    public Task(String name, String description, TaskState state, LocalDate deadline){
         this.name = name;
         this.description = description;
         this.state = state;

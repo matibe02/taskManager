@@ -1,7 +1,6 @@
 package com.GestorDeTareas.taskManager.Controller;
 
 import com.GestorDeTareas.taskManager.DTO.TaskDTO;
-import com.GestorDeTareas.taskManager.Model.Task;
 import com.GestorDeTareas.taskManager.Service.TaskService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Slf4j
 @RestController
@@ -55,4 +53,5 @@ public class TaskController {
         service.deleteTask(id);
         return ResponseEntity.noContent().build();
     }
+
 }

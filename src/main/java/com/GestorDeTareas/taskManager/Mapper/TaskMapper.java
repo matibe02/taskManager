@@ -13,7 +13,7 @@ public class TaskMapper {
         dto.setId(task.getId());
         dto.setName(task.getName());
         dto.setDescription(task.getDescription());
-        dto.setState(task.isState());
+        dto.setState(task.getState());
         dto.setDeadline(task.getDeadline());
         return dto;
     }
@@ -25,7 +25,7 @@ public class TaskMapper {
         task.setId(taskDTO.getId());
         task.setName(taskDTO.getName());
         task.setDescription(taskDTO.getDescription());
-        task.setState(taskDTO.isState());
+        task.setState(taskDTO.getState());
         task.setDeadline(taskDTO.getDeadline());
         return task;
     }

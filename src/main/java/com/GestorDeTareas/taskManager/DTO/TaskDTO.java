@@ -1,6 +1,6 @@
 package com.GestorDeTareas.taskManager.DTO;
 
-import com.GestorDeTareas.taskManager.Model.Task;
+import com.GestorDeTareas.taskManager.Model.TaskState;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,7 +14,7 @@ public class TaskDTO {
     private Long id;
     private String name;
     private String description;
-    private boolean state;
+    private TaskState state = TaskState.PENDING;
     private LocalDate deadline;
     
 }
