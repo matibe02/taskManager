@@ -47,7 +47,7 @@ public class TaskService {
         existingTask.setName(taskDTO.getName());
         existingTask.setDescription(taskDTO.getDescription());
         existingTask.setState(taskDTO.getState());
-
+        existingTask.setDeadline(taskDTO.getDeadline());
         Task updatedTask = taskRepository.save(existingTask);
         return taskMapper.toDTO(updatedTask);
     }
